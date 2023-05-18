@@ -19,7 +19,8 @@ while not input_bay:
             find_word = True
     for word in words_film:
         if word in input_string:
-            print('Соррі що втручаюсь, не знаю про що йдеться мова, але подивіться серіал/фільм - Друзі, він просто бомба!')
+            print('Соррі що втручаюсь, не знаю про що йдеться мова, але подивіться серіал/фільм -'
+                  ' Друзі, він просто бомба!')
             find_word = True
     for word in words_bay:
         if word in input_string:
@@ -27,5 +28,5 @@ while not input_bay:
             find_word = True
             input_bay = True
     if not find_word:
-            print('Дуже цікаво, але, нажаль, нічого не зрозуміло :( ')
+        print('Дуже цікаво, але, нажаль, нічого не зрозуміло :( ')
     counter += 1
