@@ -15,6 +15,7 @@
 3
 """
 
+
 list_numbers = list()
 input_sum = False
 while not input_sum:
