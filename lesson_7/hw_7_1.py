@@ -1,5 +1,6 @@
 import string
-def read_user_number(user_prompt, lower_bound=2):
+
+def read_user_number(user_prompt):
     while True:
         words = input(f'{user_prompt}').lower()
         words = words.strip()
@@ -14,7 +15,8 @@ def read_user_number(user_prompt, lower_bound=2):
                     new_words.append(word)  # добавить слова без пунктуаций в новій словарь
                 new_words_without_punctuation = ''.join(new_words)  # объеденить слова в одно слово
                 if len(new_words_without_punctuation) > 1:
-                    if new_words_without_punctuation == new_words_without_punctuation[::-1]:  # сравнения слова и зеркальное
+                    # сравнения слова и зеркальное
+                    if new_words_without_punctuation == new_words_without_punctuation[::-1]:
                         return print(f'Строка {new_words_without_punctuation} є паліндромом')
                     else:
                         return print('Строка не є паліндромом')
@@ -25,6 +27,6 @@ def read_user_number(user_prompt, lower_bound=2):
         else:
             print('Строка не повинна бути пустою')
 
-a = read_user_number('Введіть звернення:')
 
+a = read_user_number('Введіть звернення: ')
 # print(a)
