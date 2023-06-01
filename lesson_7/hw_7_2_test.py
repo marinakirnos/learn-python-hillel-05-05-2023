@@ -75,7 +75,8 @@ def triangle_area(side1, side2, side3):
     :param side1: сторона 1
     :param side2: сторона 2
     :param side3: сторона 3
-    :return: Площа трикутника за сторонами знаходиться через напівпериметр та корінь квадратний sqrt (можна імпортувати з math):
+    :return: Площа трикутника за сторонами знаходиться через напівпериметр та корінь квадратний sqrt
+    (можна імпортувати з math):
     half_p = perimeter / 2
     s = sqrt(half_p * (half_p - a) * (half_p - b) * (half_p - c)
     """
