@@ -18,8 +18,8 @@
 
 
 list_numbers = list()
-input_sum = False
-while not input_sum:
+# input_sum = False
+while True:
     input_number = input("Ваше число: ")
     #  якщо введено слово sum, то розраховує сумму введених чисел та завершує виконання
     if input_number.lower() == 'sum':
