@@ -22,12 +22,10 @@ s = sqrt(half_p * (half_p - a) * (half_p - b) * (half_p - c)
 from math import sqrt
 
 
-# Зчитування сторони трикутника (саме додатнього числа, а не того що може ввести користувач)
-# та повернення цього значення
 def triangle_input():
     """
-    Отвечает за считывание у пользователя строки и конвертации её в число
-    Считывание до тех пор, пока введённая строка не удовлетворит все условия
+    Зчитування сторони трикутника (саме додатнього числа, а не того що може ввести користувач)
+    та повернення цього значення
     :return: считанное у пользователя число (положительное) - сторона треугольника
     """
     while True:
@@ -42,29 +40,49 @@ def triangle_input():
             print('Некоректний ввід. Введіть сторону трикутника - число: ')
 
 
-# Перевірка можливості існування трикутника та поверненням True/False
 def triangle_test(side1, side2, side3):
+    """
+    Перевірка можливості існування трикутника та поверненням True/False
+    Трикутник існує тоді, коли сумма двох його сторін більше за третю сторону
+    Тобто у трикутника зі сторонами a, b, c мають виконуватись такі вимоги: a + b > c. a + c > b, b + c > a.
+    :param side1: сторона 1
+    :param side2: сторона 2
+    :param side3: сторона 3
+    :return: True/False (існує / не існує трикутник)
+    """
     if side1 + side2 > side3 and side2 + side3 > side1 and side1 + side3 > side2:
         return True
     else:
         return False
 
 
-# Підрахунок периметру трикутника
 def triangle_perimeter(side1, side2, side3):
+    """
+    Підрахунок периметру трикутника
+    :param side1: сторона 1
+    :param side2: сторона 2
+    :param side3: сторона 3
+    :return: Периметр трикутника - то є сума всіх його сторін, тобто perimeter = a + b + c
+    """
     # if triangle_test(side1, side2, side3) == True:
     perimeter = side1 + side2 + side3
     return perimeter
 
 
-# Підрахунок площі трикутника
 def triangle_area(side1, side2, side3):
+    """
+    Підрахунок площі трикутника
+    :param side1: сторона 1
+    :param side2: сторона 2
+    :param side3: сторона 3
+    :return: Площа трикутника за сторонами знаходиться через напівпериметр та корінь квадратний sqrt (можна імпортувати з math):
+    half_p = perimeter / 2
+    s = sqrt(half_p * (half_p - a) * (half_p - b) * (half_p - c)
+    """
     # if triangle_test(side1, side2, side3) == True:
     half_p = triangle_perimeter(side1, side2, side3) / 2
     square = sqrt(half_p * (half_p - side1) * (half_p - side2) * (half_p - side3))
     return square
-    # else:
-    #      return print('Площа трикутника не існує')
 
 
 # Приклад використання функцій
