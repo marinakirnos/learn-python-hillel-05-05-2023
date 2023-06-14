@@ -23,11 +23,11 @@ def earliest(notes: dict):
     :param notes: словник, де ключ - час введення, значення - нотатки
     :return: latest - виводить збережені нотатки у хронологічному порядку - від найранішої до найпізнішої
     """
+    print('Від найранішої до найпізнішої:')
     key_sort_list = sorted(list(notes.keys()))  # var 1
-    # key_sort_list = dict(sorted(notes.items(), key=lambda element: element[1]))  # var 2
+    # key_sort_list = dict(sorted(notes.items(), key=lambda element: element[0]))  # var 2
     for key in key_sort_list:
         # print(key, notes[key])
-        print('Від найранішої до найпізнішої:')
         print(notes[key])
 
 
@@ -37,10 +37,10 @@ def latest(notes: dict):
     :param notes: словник, де ключ - час введення, значення - нотатки
     :return: latest - виводить збережені нотатки у хронологічному порядку - від найпізнішої до найранішої
     """
+    print('Від найпізнішої до найранішої:')
     key_sort_list = sorted(list(notes.keys()), reverse=True)  # var 1
-    # key_sort_list = dict(sorted(notes.items(), key=lambda element: element[1], reverse=True))  # var 2
+    # key_sort_list = dict(sorted(notes.items(), key=lambda element: element[0], reverse=True))  # var 2
     for key in key_sort_list:
-        print('Від найпізнішої до найранішої:')
         print(notes[key])
 
 
@@ -50,9 +50,9 @@ def longest(notes: dict):
     :param notes: словник, де ключ - час введення, значення - нотатки
     :return: longest - виводить збережені нотатки у порядку їх довжини - від найдовшої до найкоротшої
     """
+    print('від найдовшої до найкоротшої:')
     values = sorted(notes.values(), key=len, reverse=True)
     for value in values:
-        print('від найдовшої до найкоротшої:')
         print(value)
 
 
@@ -62,9 +62,9 @@ def shortest(notes: dict):
     :param notes: словник, де ключ - час введення, значення - нотатки
     :return: shortest - виводить збережені нотатки у порядку їх довжини - від найкоротшоїдо найдовшої
     """
+    print('від найкоротшоїдо найдовшої:')
     values = sorted(notes.values(), key=len)
     for value in values:
-        print('від найкоротшоїдо найдовшої:')
         print(value)
 
 
