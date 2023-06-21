@@ -64,7 +64,6 @@ def latest(notes: dict):
     Розраховує нотатки у хронологічному порядку - від найпізнішої до найранішої
     :param notes: словник, де ключ - час введення, значення - нотатки
     """
-    # print('Від найпізнішої до найранішої:')
     values = [notes[key] for key in sorted(notes, reverse=True)]
     return values
 
