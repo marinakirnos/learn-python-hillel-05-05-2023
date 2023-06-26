@@ -43,13 +43,11 @@ def open_csv_file_dict(filename, to_print=True) -> list:
 
 def create_index(all_data: list) -> dict:
     """
-    В этой функции создаётся индекс по колонке, чьё имя мы указываем
-    :param all_data: данные в которых находятся колонки из которых мы строим индекс.
-                    Данные представлены в виде список словарей
+    В этой функции создаётся индекс уникального значения для каждой записи
+    :param all_data: данные. Данные представлены в виде список словарей
     :return: индекс, т.е. словарь,
-            где ключи - это уникальные значения из колонки column_name,
-            а значения под ключами - это список записей из all_data,
-            у которых есть такое значение в column_name
+            где ключи - это айди,
+            а значения под ключами - это уникальные записи
     """
     new_index = dict()
     unique_id = 1
@@ -60,10 +58,21 @@ def create_index(all_data: list) -> dict:
 
 
 def create_category_brand_index_key(record: dict):
+    """
+    Функция выбирает категории и бренды
+    :param record: словник, ключ -  id товар, значения под ключами - это уникальные записи
+    :return: сочитание категории и бренда
+    """
     return tuple(sorted({'category': record['category'].lower(), 'brand': record['brand'].lower()}.items()))
 
 
 def create_category_brand_dict(records: dict):
+    """
+    створює індекс по категоріям та брендам. Тобто словник, де ключі - це назва категорії/бренду, а значення -
+    це перелік унікальних айді товарів, в яких є таке значення поля категорії/бренду
+    :param records: словник, ключ -  id товар, значения под ключами - это уникальные записи
+    :return:
+    """
     category_brand_dict = dict()
     for key in records.keys():
         category_brand_index_key = create_category_brand_index_key(records[key])
@@ -75,6 +84,12 @@ def create_category_brand_dict(records: dict):
 
 
 def create_position_id_index(all_data, column_name: str) -> dict:
+    """
+    Статистика скільки товарів є від кожної категорії:
+    :param all_data: данные. Данные представлены в виде список словарей
+    :param column_name: название колонки по какой хотим группировать: категории, бренд
+    :return: Перечень категорий и кол-во товаров, перечень брендов и кол-во товаров
+    """
     new_index = dict()
     for i, data_entry in enumerate(all_data):
         if data_entry[column_name] not in new_index:
@@ -83,41 +98,98 @@ def create_position_id_index(all_data, column_name: str) -> dict:
     return new_index
 
 
-def print_create_position_category_brand(all_data, position_index: dict):
+def print_create_position_category_brand(position_index: dict):
     for index_key, position_values in position_index.items():
         print(f'Записи {index_key},', position_values)
-        # for i in position_values:
-        #     print('  ', all_data[i])
 
 
-def print_position_id_index(all_data: list, position_index: dict):
+def print_position_id_index(position_index: dict):
     for index_key, position_values in position_index.items():
         print(f'Записи со значением {index_key}:', len(position_values))
 
 
+def category_brand_items(category_brand_dict: dict, id_index: dict, category: str, brand: str):
+    """
+    Виводить на екран перелік повної інформації про кожний товар одного бренда та однієї категорії:
+    :param category_brand_dict:  словник, де ключі - це назва категорії/бренду, а значення -
+    це перелік унікальних айді товарів, в яких є таке значення поля категорії/бренду
+    :param id_index: индекс, т.е. словарь,
+            где ключи - это айди товара,
+            а значения под ключами - это уникальные записи (повна інформація про товар
+    :param category: категория
+    :param brand: бренд
+    :return: перелік повної інформації про кожний товар одного бренда та однієї категорії
+    """
+    key = create_category_brand_index_key({'brand': brand, 'category': category})
+    id_list = category_brand_dict[key]
+    detailed_prodact_list = []
+    for id_ in id_list:
+        detailed_prodact_list.append(id_index[id_])
+    return detailed_prodact_list
+
+
+def category_brand_items_count(all_data: dict):
+    """
+    Рахує розподіл товарів по брендам для кожної категорії та виводить це на екран
+    :param all_data: записи по товару
+    :return: Кол-во товаров по брендам в каждой категории
+    """
+    count_brand_for_category = {}
+    for product in all_data.values():
+        category = product['category']
+        brand = product['brand']
+        if category not in count_brand_for_category:
+            count_brand_for_category[category] = {}
+        if brand not in count_brand_for_category[category]:
+            count_brand_for_category[category][brand] = 0
+        count_brand_for_category[category][brand] += 1
+    return count_brand_for_category
+
 
 if __name__ == '__main__':
+    print('Читає цей файл:')
     tech_inventory_data = open_csv_file_dict('tech_inventory.csv', to_print=False)
+    # print(tech_inventory_data)
 
+    print()
+    print('Створює індекс унікальних айді для кожного запису:')
     tech_inventory_index = create_index(tech_inventory_data)
     print(type(tech_inventory_index), tech_inventory_index)
+    for index_key_, position_values_ in tech_inventory_index.items():
+        print(f'ID {index_key_},', position_values_)
 
+    print()
+    print('Створює індекс по категоріям та брендам:')
     category_brand = create_category_brand_dict(tech_inventory_index)
     print(category_brand)
+    print_create_position_category_brand(category_brand)
 
-    print_create_position = print_create_position_category_brand(tech_inventory_data, category_brand)
-    print(print_create_position)
-    # for key in category_brand:
-    #     if dict(key)['brand'] == 'asus':
-    #         print(category_brand[key])
-
+    print()
+    print('Статистика скільки товарів є від кожної категорії:')
     category_position_id_index = create_position_id_index(tech_inventory_data, 'category')
     # print(type(category_position_id_index), category_position_id_index)
-    print_position_id_index(tech_inventory_data, category_position_id_index)
+    print_position_id_index(category_position_id_index)
 
+    print()
+    print('Статистика скільки товарів є від кожного бренда:')
     brand_position_id_index = create_position_id_index(tech_inventory_data, 'brand')
     # print(type(brand_position_id_index), brand_position_id_index)
-    print_position_id_index(tech_inventory_data, brand_position_id_index)
+    print_position_id_index(brand_position_id_index)
 
-    # brand_index = create_index(tech_inventory_data, 'brand')
-    # print(type(brand_index), brand_index)
+    print()
+    print('Виводить на екран перелік повної інформації про кожний товар одного бренда та однієї категорії:')
+    items_brand_category = category_brand_items(category_brand, tech_inventory_index, 'laptop', 'hp')
+    for item in items_brand_category:
+        print(item)
+
+    print()
+    print('Рахує розподіл товарів по брендам для кожної категорії та виводить це на екран:')
+    category_brand_items_count_ = category_brand_items_count(tech_inventory_index)
+    for category_ in category_brand_items_count_.keys():
+        print(category_)
+        for brand_ in category_brand_items_count_[category_].keys():
+            print('\t', brand_, category_brand_items_count_[category_][brand_])
+
+    # for category in category_brand_items_count_.keys():
+    #     for brand in category_brand_items_count_[category].keys():
+    #         print(category, brand, category_brand_items_count_[category][brand])
