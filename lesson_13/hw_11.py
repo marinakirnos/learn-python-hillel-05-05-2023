@@ -14,12 +14,14 @@
 Чи кішка їла
 Оцінювання
 60/60 коректність структури класу кішка
-30/30 коректність створення класу кішка та його використання (без global scope, у __main__, а ще краще - у іншому файлі, куди клас імпортується)
+30/30 коректність створення класу кішка та його використання
+(без global scope, у __main__, а ще краще - у іншому файлі, куди клас імпортується)
 5/5 наявність коментарів
 5/5 відсутність ПЕП зауважень
 +? творчий підхід, тут його багато :)
 """
 from random import choices, randint, random
+
 
 class Cat:
     def __init__(self, name: str, age: int, breed: str, preferred_food: set):
@@ -36,19 +38,17 @@ class Cat:
         self.preferred_food = preferred_food
         self.hungry = True
         self.hours_outdoors = 0
-
+        self.hours_sleep = 0
 
     def __str__(self):
         starting_str = f"{self.breed.capitalize()} {self.name}, возраст: {self.age} "
-        starting_str += f", часов гулял: {self.hours_outdoors}, голоден: {self.hungry}"
+        starting_str += f", часов гулял: {self.hours_outdoors}, спал: {self.hours_sleep}, голоден: {self.hungry}"
         return starting_str
 
-
-    def bark(self, count: int):
+    def mew(self, count: int):
         if count > 0:
-            barking_str = '-'.join(["гав"] * count).capitalize()
-            print(f"{self.name} гавкает: {barking_str}!")
-
+            barking_str = '-'.join(["мяу"] * count).capitalize()
+            print(f"{self.name} мяукает: {barking_str}!")
 
     def eat(self, food: str):
         if self.hungry:
@@ -57,10 +57,20 @@ class Cat:
                 self.hungry = False
             else:
                 print(f"{self.name} такое не ест: {food}")
-                self.bark(randint(1, 5))
+                self.mew(randint(1, 5))
         else:
             print(f"{self.name} не голоден")
 
+    def sleep(self, tired: bool):
+        if tired:
+            hours = randint(2, 5)
+            print(f"{self.name} спит {hours} часов")
+            self.hours_sleep += hours
+        else:
+            print(f"{self.name} не хочет спать")
+        if self.hours_sleep > 3:
+            self.hungry = True
+        return "Хорошо себя чувствует!" if not None else tired
 
     def walk(self, alone: bool):
         """
@@ -70,21 +80,21 @@ class Cat:
         :return: если с хозяином - повышается настроение (у хозяина), если сама - None
         """
         if alone:
-            hours = randint(2, 6)
+            hours = randint(2, 4)
             with_str = "сам"
         else:
-            hours = randint(1, 3)
+            hours = randint(1, 2)
             with_str = "с хозяином"
-        print(f"{self.name} гуляет {with_str} {hours} часов")
+        print(f"{self.name} гуляет {with_str} {hours} часа")
         self.hours_outdoors += hours
         if self.hours_outdoors > 3:
             self.hungry = True
-        """то же самое, что ниже, но проще читать
-                if alone:
-                    return
-                else:
-                    return "Хорошее настроение!"
-                """
+        # """то же самое, что ниже, но проще читать
+        #         if alone:
+        #             return
+        #         else:
+        #             return "Хорошее настроение!"
+        #         """
         return "Хорошее настроение!" if not alone else None
 
 
@@ -114,6 +124,11 @@ if __name__ == '__main__':
                 print(f'Кормим {cat.name}')
                 for random_food in choices(potential_food, k=3):
                     cat.eat(random_food)
+                if random() > 0.5:
+                    result = cat.sleep(tired=True)
+                    print(f"Кот {result}")
+                else:
+                    result = cat.sleep(tired=False)
             else:
                 if random() > 0.5:
                     result = cat.walk(alone=True)
