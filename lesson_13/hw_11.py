@@ -41,7 +41,7 @@ class Cat:
         self.hours_sleep = 0
 
     def __str__(self):
-        starting_str = f"{self.breed.capitalize()} {self.name}, возраст: {self.age} "
+        starting_str = f"{self.breed.capitalize()} {self.name}, возраст: {self.age}"
         starting_str += f", часов гулял: {self.hours_outdoors}, спал: {self.hours_sleep}, голоден: {self.hungry}"
         return starting_str
 
