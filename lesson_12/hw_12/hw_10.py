@@ -149,7 +149,7 @@ def category_brand_items_count(all_data: dict):
 if __name__ == '__main__':
     print('Читає цей файл:')
     tech_inventory_data = open_csv_file_dict('tech_inventory.csv', to_print=False)
-    # print(tech_inventory_data)
+    print(tech_inventory_data)
 
     print()
     print('Створює індекс унікальних айді для кожного запису:')
