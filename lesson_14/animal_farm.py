@@ -32,4 +32,5 @@ if __name__ == '__main__':
         what_we_got.append(animal.treat(randint(0, 5)))
 
 
+
     print(f'Сегодня на ферме мы потратили: {", ".join(what_we_lost)} и получили {", ".join(what_we_got)}')
