@@ -1,5 +1,6 @@
 from random import randint
 
+
 class Animal:
     def __init__(self, name: str, age: int, say_word: str, preferred_food: set):
         """
@@ -65,12 +66,3 @@ class Animal:
 
         # подчёркивает необходимость заполнения этого метода в каждом наследнике
         raise NotImplementedError
-
-        """примеры с Exception 
-        try:
-            raise NotImplementedError
-        except ValueError:
-            print('обработка Value Error')
-        except UnicodeError:
-            print('обработка Unicode Error')
-        """
