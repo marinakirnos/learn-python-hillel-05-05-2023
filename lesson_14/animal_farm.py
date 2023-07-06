@@ -28,9 +28,17 @@ if __name__ == '__main__':
             print(f'{animal} голодает! Покормите его.')
         if random() > 0.5:
             result = animal.visit_vet(crying=True)
-            print(f'Хозяин понял, что: {result}')
+            print(f'{animal} плачит, хозяин понял, что: {result}')
+            if result == "требуется лечение!":
+                animals_needing_care.append(animal)
         what_we_got.append(animal.treat(randint(0, 5)))
 
 
 
     print(f'Сегодня на ферме мы потратили: {", ".join(what_we_lost)} и получили {", ".join(what_we_got)}')
+    if animals_needing_care:
+        print("Требуется поход до ветеринара для животных:")
+        for animal in animals_needing_care:
+            print(animal)
+    else:
+        print("Все животные чувствуют себя хорошо!")

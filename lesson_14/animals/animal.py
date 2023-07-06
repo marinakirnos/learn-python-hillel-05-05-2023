@@ -34,7 +34,7 @@ class Animal:
         else:
             print(f"{self} не плачит")
             self.vet_check = False
-        return "Хорошо себя чувствует!" if not self.vet_check else "Требуется лечение!"
+        return "Хорошо себя чувствует!" if not self.vet_check else "требуется лечение!"
 
     def eat(self, food: str):
         """
